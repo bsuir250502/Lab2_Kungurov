@@ -30,6 +30,7 @@ struct height_weight_xxx hwxxx;
 typedef struct {
 struct names snp;
 union medicine med;
+int med_parameters;
 } students;
 
 
@@ -40,32 +41,54 @@ int get_int(int *j){
 	return *j;
 }
 
-int get_float(float *j){
+float get_float(float *j){
 	char str[10];
 	fgets(str,8,stdin);
 	*j=atof(str);
 	return *j;
 }
 
+char get_sex(char *j){
+    char str[10];
+    while(1){
+    fgets(str,8,stdin);
+    fflush(stdin);
+    str[strlen(str)-1]='\0';
+    if(strcmp(str,"male") == 0) { strncpy(j,str,7); return *j;}
+    else if(strcmp(str,"female") == 0) { strncpy(j,str,7); return *j;}
+    else {puts("Unknown sex!Try again"); continue;}
+    }
+}
 
 void get_height_weight(students *student){
-	char *adress;
 printf("Enter height\n");
-get_float(&student->med.hw.height);
 while (!get_float(&student->med.hw.height)) { puts("Good job!You are stupid\n"); }
 printf("Enter weight\n");
-get_float(&student->med.hw.height);
 while (!get_float(&student->med.hw.weight)) { puts("Good job!You are stupid\n"); }
-
-
 fflush(stdin);
 
 }
+
+
+void get_height_weight_xxx(students *student){
+printf("Enter height\n");
+while (!get_float(&student->med.hwxxx.height)) { puts("Good job!You are stupid\n"); }
+printf("Enter weight\n");
+while (!get_float(&student->med.hwxxx.weight)) { puts("Good job!You are stupid\n"); }
+printf("Enter brain size\n");
+while (!get_int(&student->med.hwxxx.brain_size)) { puts("Good job!You are stupid\n"); }
+printf("Enter sex (full)\n");
+while (!get_sex(&student->med.hwxxx.sex[0])) { puts("Good job!You are stupid\n"); }
+fflush(stdin);
+
+}
+
 void get_info(students *student){
 	int j;
 char *adress;
 printf("Enter name\n");
 fgets(student->snp.name,30,stdin);
+puts(student->snp.name);
 if (adress=strchr(student->snp.name,'\n')){
  *adress='\0';}
 fflush(stdin);
@@ -79,19 +102,29 @@ fgets(student->snp.patronymic,30,stdin);
 if (adress=strchr(student->snp.patronymic,'\n')){
  *adress='\0';}
 fflush(stdin);
-puts("A || B");
+puts("1 || 2");
+while(1){
 while (!get_int(&j)) { puts("Good job!You are stupid\n"); }
-if (j==1) { get_height_weight(student);)
-printf("%d",j);
+if (j==1) { get_height_weight(student); student->med_parameters = 1; break;}
+else if (j==2) { get_height_weight_xxx(student); student->med_parameters = 2; break;}
+     else { puts("Bad decision!Try again"); continue; }
+	 }
 }
-
-
-
 
 void display_info(students *student){
 puts(student->snp.name);
 puts(student->snp.surname);
 puts(student->snp.patronymic);
+if (student->med_parameters == 1){
+printf("%.2f\n",student->med.hw.height);
+printf("%.2f\n",student->med.hw.weight);
+}
+if (student->med_parameters == 2){
+printf("%.2f\n",student->med.hwxxx.height);
+printf("%.2f\n",student->med.hwxxx.weight);
+printf("%d\n",student->med.hwxxx.brain_size);
+puts(student->med.hwxxx.sex);
+}
 }
 
 int main()
@@ -110,29 +143,3 @@ int main()
 	return 0;
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
