@@ -103,7 +103,6 @@ void get_info(students * student)
     char *adress;
     printf("Enter name\n");
     fgets(student->snp.name, 30, stdin);
-    puts(student->snp.name);
     if (adress = strchr(student->snp.name, '\n')) {
         *adress = '\0';
     }
