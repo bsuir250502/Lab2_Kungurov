@@ -119,7 +119,7 @@ void get_info(students * student)
         *adress = '\0';
     }
     fflush(stdin);
-    puts("1 || 2");
+    puts("Enter '1' if you want to enter only height and weight or '2' if you want to enter more parameters \n");
     while (1) {
         while (!get_int(&j)) {
             puts("Good job!You are stupid\n");
@@ -141,17 +141,17 @@ void get_info(students * student)
 
 void display_info(students * student)
 {
-    puts(student->snp.name);
     puts(student->snp.surname);
+    puts(student->snp.name);
     puts(student->snp.patronymic);
     if (student->med_parameters == 1) {
-        printf("%.2f\n", student->med.hw.height);
+        printf("    %.2f   ", student->med.hw.height);
         printf("%.2f\n", student->med.hw.weight);
     }
     if (student->med_parameters == 2) {
-        printf("%.2f\n", student->med.hwxxx.height);
-        printf("%.2f\n", student->med.hwxxx.weight);
-        printf("%d\n", student->med.hwxxx.brain_size);
+        printf("   %.2f   ", student->med.hwxxx.height);
+        printf("%.2f   ", student->med.hwxxx.weight);
+        printf("%d   ", student->med.hwxxx.brain_size);
         puts(student->med.hwxxx.sex);
     }
 }
