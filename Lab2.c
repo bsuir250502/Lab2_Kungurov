@@ -141,8 +141,8 @@ void get_info(students * student)
 
 void display_info(students * student)
 {
-    puts(student->snp.surname);
     puts(student->snp.name);
+    puts(student->snp.surname);
     puts(student->snp.patronymic);
     if (student->med_parameters == 1) {
         printf("    %.2f   ", student->med.hw.height);
