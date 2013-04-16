@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include "mystdlib.c"
 #define number_of_students 2
 struct names {
     char name[30];
@@ -30,7 +31,7 @@ typedef struct {
 int get_int(int *j)
 {
     char str[10];
-    fgets(str, 8, stdin);
+    my_gets(str, 10);
     *j = atoi(str);
     return *j;
 }
@@ -38,7 +39,7 @@ int get_int(int *j)
 float get_float(float *j)
 {
     char str[10];
-    fgets(str, 8, stdin);
+    my_gets(str, 10);
     *j = atof(str);
     return *j;
 }
@@ -47,9 +48,7 @@ char get_sex(char *j)
 {
     char str[10];
     while (1) {
-        fgets(str, 8, stdin);
-        fflush(stdin);
-        str[strlen(str) - 1] = '\0';
+        my_gets(str, 8);
         if (strcmp(str, "male") == 0) {
             strncpy(j, str, 7);
             return *j;
@@ -63,38 +62,42 @@ char get_sex(char *j)
     }
 }
 
+void enter_valid_float(char *message, float *target)
+{
+    puts(message);
+    while (!get_float(target)) {
+        puts("Input error. Try again\n");
+    }
+}
+
+void enter_valid_char(char *message, char *target)
+{
+    puts(message);
+    while (!get_sex(target)) {
+        puts("Input error. Try again\n");
+    }
+}
+
+void enter_valid_int(char *message, int *target)
+{
+    puts(message);
+    while (!get_int(target)) {
+        puts("Input error. Try again\n");
+    }
+}
+
 void get_height_weight(students * student)
 {
-    printf("Enter height\n");
-    while (!get_float(&student->med.hw.height)) {
-        puts("Good job!You are stupid\n");
-    }
-    printf("Enter weight\n");
-    while (!get_float(&student->med.hw.weight)) {
-        puts("Good job!You are stupid\n");
-    }
-    fflush(stdin);
+    enter_valid_float("Enter height", &student->med.hw.height);
+    enter_valid_float("Enter weight", &student->med.hw.weight);
 }
 
 void get_height_weight_xxx(students * student)
 {
-    printf("Enter height\n");
-    while (!get_float(&student->med.hwxxx.height)) {
-        puts("Good job!You are stupid\n");
-    }
-    printf("Enter weight\n");
-    while (!get_float(&student->med.hwxxx.weight)) {
-        puts("Good job!You are stupid\n");
-    }
-    printf("Enter brain size\n");
-    while (!get_int(&student->med.hwxxx.brain_size)) {
-        puts("Good job!You are stupid\n");
-    }
-    printf("Enter sex (full)\n");
-    while (!get_sex(&student->med.hwxxx.sex[0])) {
-        puts("Good job!You are stupid\n");
-    }
-    fflush(stdin);
+    enter_valid_float("Enter height", &student->med.hwxxx.height);
+    enter_valid_float("Enter weight", &student->med.hwxxx.weight);
+    enter_valid_int("Enter brain size", &student->med.hwxxx.brain_size);
+    enter_valid_char("Enter sex", &student->med.hwxxx.sex[0]);
 }
 
 void get_info(students * student)
@@ -106,23 +109,20 @@ void get_info(students * student)
     if (adress = strchr(student->snp.name, '\n')) {
         *adress = '\0';
     }
-    fflush(stdin);
     printf("Enter surname\n");
     fgets(student->snp.surname, 30, stdin);
     if (adress = strchr(student->snp.surname, '\n')) {
         *adress = '\0';
     }
-    fflush(stdin);
     printf("Enter patronymic\n");
     fgets(student->snp.patronymic, 30, stdin);
     if (adress = strchr(student->snp.patronymic, '\n')) {
         *adress = '\0';
     }
-    fflush(stdin);
     puts("Enter '1' if you want to enter only height and weight or '2' if you want to enter more parameters \n");
     while (1) {
         while (!get_int(&j)) {
-            puts("Good job!You are stupid\n");
+            puts("Input error. Try again\n");
         }
         if (j == 1) {
             get_height_weight(student);
