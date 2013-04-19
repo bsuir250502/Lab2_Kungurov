@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include "mystdlib.c"
+#include "mystdlib.h"
 #define number_of_students 2
 struct names {
     char name[30];
@@ -28,20 +28,18 @@ typedef struct {
     union medicine med;
     int med_parameters;
 } students;
-int get_int(int *j)
+int get_int()
 {
     char str[10];
     my_gets(str, 10);
-    *j = atoi(str);
-    return *j;
+    return atoi(str);
 }
 
-float get_float(float *j)
+float get_float()
 {
     char str[10];
     my_gets(str, 10);
-    *j = atof(str);
-    return *j;
+    return atof(str);
 }
 
 char get_sex(char *j)
@@ -65,8 +63,9 @@ char get_sex(char *j)
 void enter_valid_float(char *message, float *target)
 {
     puts(message);
-    while (!get_float(target)) {
-        puts("Input error. Try again\n");
+    *target = get_float();
+    while (!target) {
+        puts("Input error. Try again");
     }
 }
 
@@ -74,14 +73,15 @@ void enter_valid_char(char *message, char *target)
 {
     puts(message);
     while (!get_sex(target)) {
-        puts("Input error. Try again\n");
+        puts("Input error. Try again");
     }
 }
 
 void enter_valid_int(char *message, int *target)
 {
     puts(message);
-    while (!get_int(target)) {
+    *target = get_int();
+    while (!target) {
         puts("Input error. Try again\n");
     }
 }
@@ -103,26 +103,18 @@ void get_height_weight_xxx(students * student)
 void get_info(students * student)
 {
     int j;
-    char *adress;
     printf("Enter name\n");
-    fgets(student->snp.name, 30, stdin);
-    if (adress = strchr(student->snp.name, '\n')) {
-        *adress = '\0';
-    }
+    my_gets(student->snp.name, 30);
     printf("Enter surname\n");
-    fgets(student->snp.surname, 30, stdin);
-    if (adress = strchr(student->snp.surname, '\n')) {
-        *adress = '\0';
-    }
+    my_gets(student->snp.surname, 30);
     printf("Enter patronymic\n");
-    fgets(student->snp.patronymic, 30, stdin);
-    if (adress = strchr(student->snp.patronymic, '\n')) {
-        *adress = '\0';
-    }
+    my_gets(student->snp.patronymic, 30);
     puts("Enter '1' if you want to enter only height and weight or '2' if you want to enter more parameters \n");
     while (1) {
-        while (!get_int(&j)) {
+        j = get_int();
+        while (!j) {
             puts("Input error. Try again\n");
+            j = get_int();
         }
         if (j == 1) {
             get_height_weight(student);
